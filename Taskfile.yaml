@@ -1,0 +1,18 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  build:
+    cmds:
+      - go build -ldflags="-X 'v3board/cmd.Version={{.VERSION}}' -X 'v3board/cmd.GoVersion={{.GO_VERSION}}' -X 'v3board/cmd.GitCommit={{.GIT_COMMIT}}' -X 'v3board/cmd.Built={{.Built}}' -X 'v3board/cmd.OsArch={{.OS_ARCH}}'" -o v3board
+    vars:
+      VERSION: "0.0.1"
+      GO_VERSION:
+        sh: go version | cut -d " " -f 3
+      GIT_COMMIT:
+        sh: git rev-parse --short HEAD
+      Built:
+        sh: date +'%Y-%m-%d %H:%M:%S'
+      OS_ARCH:
+        sh: go version | cut -d " " -f 4
