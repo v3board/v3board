@@ -4,6 +4,8 @@
 *.dll
 *.so
 *.dylib
+v3board
+logs/
 
 # Test binary, built with `go test -c`
 *.test
