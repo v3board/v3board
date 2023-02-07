@@ -23,9 +23,16 @@ var (
 		Short: "new panel for personal",
 		Run: func(cmd *cobra.Command, args []string) {
 			if workDir == "" {
-				log.Fatalln("please set v3board work dir by -w=/path/to/dir")
+				log.Fatalln("please set v3board work directory by -w=/path/to/dir")
 			}
-			initialization.InitLog(debug)
+			// 初始化日志
+			if err := initialization.InitLog(debug); err != nil {
+				log.Fatalf("init log failed, err: %v\n", err)
+			}
+			// 初始化数据库
+			if err := initialization.InitDatabase(); err != nil {
+				log.Fatalf("init database failed, err: %v\n", err)
+			}
 
 			// TODO 动态端口
 			srv := &http.Server{
