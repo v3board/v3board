@@ -12,4 +12,6 @@ var (
 	Log *zerolog.Logger
 	// 数据库实例
 	DB *xorm.Engine
+	// 盐值，加密密码使用
+	Sault string
 )

@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+	"v3board/global"
 	"v3board/initialization"
 	"v3board/router"
 
@@ -25,6 +26,10 @@ var (
 			if workDir == "" {
 				log.Fatalln("please set v3board work directory by -w=/path/to/dir")
 			}
+			if os.Getenv("V3_SAULT") == "" {
+				log.Fatalln("please set V3_SAULT enviroment")
+			}
+			global.Sault = os.Getenv("V3_SAULT")
 			// 初始化日志
 			if err := initialization.InitLog(debug); err != nil {
 				log.Fatalf("init log failed, err: %v\n", err)
