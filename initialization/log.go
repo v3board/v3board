@@ -2,6 +2,7 @@ package initialization
 
 import (
 	"path"
+	"strconv"
 	"v3board/global"
 	"v3board/lib/logrotate"
 
@@ -15,6 +16,18 @@ func InitLog(debug bool) error {
 		zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	}
 	fileName := path.Join(global.WorkDir, "logs", "v3board.log")
+
+	zerolog.CallerMarshalFunc = func(pc uintptr, file string, line int) string {
+		short := file
+		for i := len(file) - 1; i > 0; i-- {
+			if file[i] == '/' {
+				short = file[i+1:]
+				break
+			}
+		}
+		file = short
+		return file + ":" + strconv.Itoa(line)
+	}
 
 	fileLog := &logrotate.Logger{
 		Filename:   fileName,
